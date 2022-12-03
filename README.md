@@ -1,2 +1,3 @@
-# rick-and-morty
-Rick and Morty API Client App
+# rick_and_morty
+
+Rick and Morty API Client Application
