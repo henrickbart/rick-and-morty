@@ -1,0 +1,1 @@
+enum ESearchType { name, species }
