@@ -6,12 +6,12 @@ import '../../../../core/usecases/i_usecase.dart';
 import '../repositories/i_favorite_repository.dart';
 
 class GetFavoritesUseCase implements IUseCase<List<Character>, NoParams> {
-  final IFavoriteRepository _repository;
+  final IFavoriteRepository favoriteRepository;
 
-  GetFavoritesUseCase(this._repository);
+  GetFavoritesUseCase({required this.favoriteRepository});
 
   @override
   Future<Either<Failure, List<Character>>> call(NoParams params) async {
-    return await _repository.getFavorites();
+    return await favoriteRepository.getFavorites();
   }
 }

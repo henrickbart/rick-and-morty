@@ -6,18 +6,18 @@ import '../../../../core/usecases/i_usecase.dart';
 import '../repositories/i_favorite_repository.dart';
 
 class AddFavoriteUseCase implements IUseCase<bool, AddFavoriteParams> {
-  final IFavoriteRepository _repository;
+  final IFavoriteRepository favoriteRepository;
 
-  AddFavoriteUseCase(this._repository);
+  AddFavoriteUseCase({required this.favoriteRepository});
 
   @override
   Future<Either<Failure, bool>> call(AddFavoriteParams params) async {
-    return await _repository.addFavorite(params.character);
+    return await favoriteRepository.addFavorite(character: params.character);
   }
 }
 
 class AddFavoriteParams {
-  const AddFavoriteParams(this.character);
+  const AddFavoriteParams({required this.character});
 
   final Character character;
 }

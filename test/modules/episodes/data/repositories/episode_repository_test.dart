@@ -15,7 +15,7 @@ void main() {
 
   setUp(() {
     mockEpisodeDataSource = MockEpisodeDataSource();
-    episodeRepository = EpisodeRepository(mockEpisodeDataSource);
+    episodeRepository = EpisodeRepository(episodeDataSource: mockEpisodeDataSource);
   });
 
   const tUrl = 'https://rickandmortyapi.com/api/episode/1';
@@ -23,31 +23,31 @@ void main() {
 
   test('should get episode data when call to data source is successful', () async {
     // arrange
-    when(() => mockEpisodeDataSource.getEpisode(any())).thenAnswer((_) async => tEpisodeModel);
+    when(() => mockEpisodeDataSource.getEpisode(url: any(named: 'url'))).thenAnswer((_) async => tEpisodeModel);
     // act
-    final result = await episodeRepository.getEpisode(tUrl);
+    final result = await episodeRepository.getEpisode(url: tUrl);
     // assert
-    verify(() => mockEpisodeDataSource.getEpisode(tUrl));
+    verify(() => mockEpisodeDataSource.getEpisode(url: tUrl));
     expect(result, const Right(tEpisodeModel));
   });
 
   test('should get NotFoundFailure when call to episode data source is unsuccessful', () async {
     // arrange
-    when(() => mockEpisodeDataSource.getEpisode(any())).thenThrow(NotFoundException());
+    when(() => mockEpisodeDataSource.getEpisode(url: any(named: 'url'))).thenThrow(NotFoundException());
     // act
-    final result = await episodeRepository.getEpisode(tUrl);
+    final result = await episodeRepository.getEpisode(url: tUrl);
     // assert
-    verify(() => mockEpisodeDataSource.getEpisode(tUrl));
+    verify(() => mockEpisodeDataSource.getEpisode(url: tUrl));
     expect(result, Left(NotFoundFailure()));
   });
 
   test('should get ServerFailure when call to episode data source is unsuccessful', () async {
     // arrange
-    when(() => mockEpisodeDataSource.getEpisode(any())).thenThrow(ServerException());
+    when(() => mockEpisodeDataSource.getEpisode(url: any(named: 'url'))).thenThrow(ServerException());
     // act
-    final result = await episodeRepository.getEpisode(tUrl);
+    final result = await episodeRepository.getEpisode(url: tUrl);
     // assert
-    verify(() => mockEpisodeDataSource.getEpisode(tUrl));
+    verify(() => mockEpisodeDataSource.getEpisode(url: tUrl));
     expect(result, Left(ServerFailure()));
   });
 }

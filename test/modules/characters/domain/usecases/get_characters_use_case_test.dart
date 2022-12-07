@@ -20,7 +20,7 @@ void main() {
   setUp(() {
     mockCharacterRepository = MockCharacterRepository();
     mockFavoriteRepository = MockFavoriteRepository();
-    usecase = GetCharactersUseCase(mockCharacterRepository, mockFavoriteRepository);
+    usecase = GetCharactersUseCase(characterRepository: mockCharacterRepository, favoriteRepository: mockFavoriteRepository);
   });
 
   const tSearchType = ESearchType.name;
@@ -57,14 +57,14 @@ void main() {
   test('should get list of characters from the repository with favorites', () async {
     // arrange
     when(() => mockCharacterRepository.getCharacters(searchType: any(named: 'searchType'), query: any(named: 'query'), page: any(named: 'page'))).thenAnswer((_) async => Right(tCharacterSearch));
-    when((() => mockFavoriteRepository.isFavorite(any()))).thenAnswer((_) async => const Right(true));
+    when((() => mockFavoriteRepository.isFavorite(id: any()))).thenAnswer((_) async => const Right(true));
     // act
     final result = await usecase(const GetCharactersParams(searchType: tSearchType, query: tQuery, page: tPage));
     // assert
     expect(result, Right(tCharacterSearch));
     expect(result.fold((l) => l, (r) => r.characters.first.isFavorite), true);
     verify(() => mockCharacterRepository.getCharacters(searchType: tSearchType, query: tQuery, page: tPage));
-    verify(() => mockFavoriteRepository.isFavorite(tId));
+    verify(() => mockFavoriteRepository.isFavorite(id: tId));
     verifyNoMoreInteractions(mockCharacterRepository);
     verifyNoMoreInteractions(mockFavoriteRepository);
   });

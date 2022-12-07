@@ -13,7 +13,7 @@ void main() {
 
   setUp(() {
     mockCharacterRepository = MockCharacterRepository();
-    usecase = GetCharacterUseCase(mockCharacterRepository);
+    usecase = GetCharacterUseCase(characterRepository: mockCharacterRepository);
   });
 
   const tId = 11;
@@ -33,12 +33,12 @@ void main() {
 
   test('should get a character from the repository', () async {
     // arrange
-    when(() => mockCharacterRepository.getCharacter(any())).thenAnswer((_) async => Right(tCharacter));
+    when(() => mockCharacterRepository.getCharacter(id: any(named: 'id'))).thenAnswer((_) async => Right(tCharacter));
     // act
-    final result = await usecase(const GetCharacterParams(tId));
+    final result = await usecase(const GetCharacterParams(id: tId));
     // assert
     expect(result, Right(tCharacter));
-    verify(() => mockCharacterRepository.getCharacter(tId));
+    verify(() => mockCharacterRepository.getCharacter(id: tId));
     verifyNoMoreInteractions(mockCharacterRepository);
   });
 }

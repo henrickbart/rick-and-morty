@@ -12,7 +12,7 @@ void main() {
 
   setUp(() {
     mockFavoriteRepository = MockFavoriteRepository();
-    usecase = RemoveFavoriteUseCase(mockFavoriteRepository);
+    usecase = RemoveFavoriteUseCase(favoriteRepository: mockFavoriteRepository);
   });
 
   const tId = 11;
@@ -20,12 +20,12 @@ void main() {
 
   test('should remove character from the repository', () async {
     // arrange
-    when(() => mockFavoriteRepository.removeFavorite(any())).thenAnswer((_) async => const Right(tResult));
+    when(() => mockFavoriteRepository.removeFavorite(id: any(named: 'id'))).thenAnswer((_) async => const Right(tResult));
     // act
-    final result = await usecase(const RemoveFavoriteParams(tId));
+    final result = await usecase(const RemoveFavoriteParams(id: tId));
     // assert
     expect(result, const Right(tResult));
-    verify(() => mockFavoriteRepository.removeFavorite(tId));
+    verify(() => mockFavoriteRepository.removeFavorite(id: tId));
     verifyNoMoreInteractions(mockFavoriteRepository);
   });
 }

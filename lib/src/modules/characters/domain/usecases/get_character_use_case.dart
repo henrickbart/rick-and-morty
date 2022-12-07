@@ -7,18 +7,18 @@ import '../entities/character.dart';
 import '../repositories/i_character_repository.dart';
 
 class GetCharacterUseCase implements IUseCase<Character, GetCharacterParams> {
-  final ICharacterRepository _repository;
+  final ICharacterRepository characterRepository;
 
-  GetCharacterUseCase(this._repository);
+  GetCharacterUseCase({required this.characterRepository});
 
   @override
   Future<Either<Failure, Character>> call(GetCharacterParams params) async {
-    return await _repository.getCharacter(params.id);
+    return await characterRepository.getCharacter(id: params.id);
   }
 }
 
 class GetCharacterParams extends Equatable {
-  const GetCharacterParams(this.id);
+  const GetCharacterParams({required this.id});
 
   final int id;
 

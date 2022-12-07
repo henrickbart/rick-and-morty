@@ -14,7 +14,7 @@ void main() {
 
   setUp(() {
     mockFavoriteRepository = MockFavoriteRepository();
-    usecase = GetFavoritesUseCase(mockFavoriteRepository);
+    usecase = GetFavoritesUseCase(favoriteRepository: mockFavoriteRepository);
   });
 
   const tResult = <Character>[];

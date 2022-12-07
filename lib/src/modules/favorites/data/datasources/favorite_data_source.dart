@@ -4,20 +4,20 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class IFavoriteDataSource {
   Future<List<CharacterModel>> getFavorites();
-  Future<bool> isFavorite(int id);
-  Future<bool> addFavorite(CharacterModel character);
-  Future<bool> removeFavorite(int id);
+  Future<bool> isFavorite({required int id});
+  Future<bool> addFavorite({required CharacterModel character});
+  Future<bool> removeFavorite({required int id});
 }
 
 class FavoriteDataSource implements IFavoriteDataSource {
-  final SharedPreferences _sharedPreferences;
+  final SharedPreferences sharedPreferences;
 
-  FavoriteDataSource(this._sharedPreferences);
+  FavoriteDataSource({required this.sharedPreferences});
 
   @override
-  Future<bool> addFavorite(CharacterModel character) {
+  Future<bool> addFavorite({required CharacterModel character}) {
     try {
-      return _sharedPreferences.setString(character.id.toString(), character.toJson().toString());
+      return sharedPreferences.setString(character.id.toString(), character.toJson().toString());
     } catch (e) {
       throw CacheException();
     }
@@ -26,25 +26,25 @@ class FavoriteDataSource implements IFavoriteDataSource {
   @override
   Future<List<CharacterModel>> getFavorites() {
     try {
-      return Future.value(_sharedPreferences.getKeys().map((key) => CharacterModel.fromJson(_sharedPreferences.getString(key) ?? '', rootOrigin: true, rootLocation: true)).toList());
+      return Future.value(sharedPreferences.getKeys().map((key) => CharacterModel.fromJson(sharedPreferences.getString(key) ?? '', rootOrigin: true, rootLocation: true)).toList());
     } catch (e) {
       throw CacheException();
     }
   }
 
   @override
-  Future<bool> isFavorite(int id) {
+  Future<bool> isFavorite({required int id}) {
     try {
-      return Future.value(_sharedPreferences.containsKey(id.toString()));
+      return Future.value(sharedPreferences.containsKey(id.toString()));
     } catch (e) {
       throw CacheException();
     }
   }
 
   @override
-  Future<bool> removeFavorite(int id) {
+  Future<bool> removeFavorite({required int id}) {
     try {
-      return _sharedPreferences.remove(id.toString());
+      return sharedPreferences.remove(id.toString());
     } catch (e) {
       throw CacheException();
     }

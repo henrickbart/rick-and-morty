@@ -8,14 +8,14 @@ import '../../domain/repositories/i_favorite_repository.dart';
 import '../datasources/favorite_data_source.dart';
 
 class FavoriteRepository implements IFavoriteRepository {
-  final IFavoriteDataSource _favoriteDataSource;
+  final IFavoriteDataSource favoriteDataSource;
 
-  FavoriteRepository(this._favoriteDataSource);
+  FavoriteRepository({required this.favoriteDataSource});
 
   @override
   Future<Either<Failure, List<Character>>> getFavorites() async {
     try {
-      final favorites = (await _favoriteDataSource.getFavorites()).map((e) => e.copyWith(isFavorite: true)).toList();
+      final favorites = (await favoriteDataSource.getFavorites()).map((e) => e.copyWith(isFavorite: true)).toList();
       return Right(favorites);
     } on CacheException {
       return Left(CacheFailure());
@@ -23,7 +23,7 @@ class FavoriteRepository implements IFavoriteRepository {
   }
 
   @override
-  Future<Either<Failure, bool>> addFavorite(Character character) async {
+  Future<Either<Failure, bool>> addFavorite({required Character character}) async {
     try {
       final characterModel = CharacterModel(
         id: character.id,
@@ -38,25 +38,25 @@ class FavoriteRepository implements IFavoriteRepository {
         episodes: character.episodes,
         created: character.created,
       );
-      return Right(await _favoriteDataSource.addFavorite(characterModel));
+      return Right(await favoriteDataSource.addFavorite(character: characterModel));
     } on CacheException {
       return Left(CacheFailure());
     }
   }
 
   @override
-  Future<Either<Failure, bool>> isFavorite(int id) async {
+  Future<Either<Failure, bool>> isFavorite({required int id}) async {
     try {
-      return Right(await _favoriteDataSource.isFavorite(id));
+      return Right(await favoriteDataSource.isFavorite(id: id));
     } on CacheException {
       return Left(CacheFailure());
     }
   }
 
   @override
-  Future<Either<Failure, bool>> removeFavorite(int id) async {
+  Future<Either<Failure, bool>> removeFavorite({required int id}) async {
     try {
-      return Right(await _favoriteDataSource.removeFavorite(id));
+      return Right(await favoriteDataSource.removeFavorite(id: id));
     } on CacheException {
       return Left(CacheFailure());
     }

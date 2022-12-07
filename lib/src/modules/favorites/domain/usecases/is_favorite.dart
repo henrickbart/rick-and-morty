@@ -11,7 +11,7 @@ class IsFavoriteUseCase implements IUseCase<bool, IsFavoriteParams> {
 
   @override
   Future<Either<Failure, bool>> call(IsFavoriteParams params) async {
-    return await _repository.isFavorite(params.id);
+    return await _repository.isFavorite(id: params.id);
   }
 }
 

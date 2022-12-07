@@ -9,21 +9,21 @@ import '../../../../core/usecases/i_usecase.dart';
 import '../repositories/i_character_repository.dart';
 
 class GetCharactersUseCase implements IUseCase<CharacterSearch, GetCharactersParams> {
-  final ICharacterRepository _characterRepository;
-  final IFavoriteRepository _favoriteRepository;
+  final ICharacterRepository characterRepository;
+  final IFavoriteRepository favoriteRepository;
 
-  GetCharactersUseCase(this._characterRepository, this._favoriteRepository);
+  GetCharactersUseCase({required this.characterRepository, required this.favoriteRepository});
 
   @override
   Future<Either<Failure, CharacterSearch>> call(GetCharactersParams params) async {
-    final result = await _characterRepository.getCharacters(searchType: params.searchType, query: params.query, page: params.page);
+    final result = await characterRepository.getCharacters(searchType: params.searchType, query: params.query, page: params.page);
 
     //Consultando se os personagens da lista estão favoritados
     if (result.isRight()) {
       final characterSearch = result.getOrElse(() => const CharacterSearch([], 0, 2));
 
       for (var character in characterSearch.characters) {
-        final result = await _favoriteRepository.isFavorite(character.id);
+        final result = await favoriteRepository.isFavorite(id: character.id);
 
         if (result.isRight()) {
           final isFavorite = result.getOrElse(() => false);

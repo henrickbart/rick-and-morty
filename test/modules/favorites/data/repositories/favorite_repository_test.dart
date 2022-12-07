@@ -32,7 +32,7 @@ void main() {
 
   setUp(() {
     mockFavoriteDataSource = MockFavoriteDataSource();
-    favoriteRepository = FavoriteRepository(mockFavoriteDataSource);
+    favoriteRepository = FavoriteRepository(favoriteDataSource: mockFavoriteDataSource);
     registerFallbackValue(tCharacter);
   });
 
@@ -61,21 +61,21 @@ void main() {
   group('addFavorite', () {
     test('should add favorite when call to repository is successful', () async {
       // arrange
-      when(() => mockFavoriteDataSource.addFavorite(any())).thenAnswer((_) async => tResult);
+      when(() => mockFavoriteDataSource.addFavorite(character: any(named: 'character'))).thenAnswer((_) async => tResult);
       // act
-      final result = await favoriteRepository.addFavorite(tCharacter);
+      final result = await favoriteRepository.addFavorite(character: tCharacter);
       // assert
-      verify(() => favoriteRepository.addFavorite(tCharacter));
+      verify(() => favoriteRepository.addFavorite(character: tCharacter));
       expect(result, const Right(tResult));
     });
 
     test('should return a CacheFailure when call to repository is unsuccessful', () async {
       // arrange
-      when(() => mockFavoriteDataSource.addFavorite(any())).thenThrow(CacheException('Inner exception'));
+      when(() => mockFavoriteDataSource.addFavorite(character: any(named: 'character'))).thenThrow(CacheException('Inner exception'));
       // act
-      final result = await favoriteRepository.addFavorite(tCharacter);
+      final result = await favoriteRepository.addFavorite(character: tCharacter);
       // assert
-      verify(() => favoriteRepository.addFavorite(tCharacter));
+      verify(() => favoriteRepository.addFavorite(character: tCharacter));
       expect(result, Left(CacheFailure()));
     });
   });
@@ -83,21 +83,21 @@ void main() {
   group('removeFavorite', () {
     test('should remove favorite when call to repository is successful', () async {
       // arrange
-      when(() => mockFavoriteDataSource.removeFavorite(any())).thenAnswer((_) async => tResult);
+      when(() => mockFavoriteDataSource.removeFavorite(id: any(named: 'id'))).thenAnswer((_) async => tResult);
       // act
-      final result = await favoriteRepository.removeFavorite(tId);
+      final result = await favoriteRepository.removeFavorite(id: tId);
       // assert
-      verify(() => favoriteRepository.removeFavorite(tId));
+      verify(() => favoriteRepository.removeFavorite(id: tId));
       expect(result, const Right(tResult));
     });
 
     test('should return a CacheFailure when call to repository is unsuccessful', () async {
       // arrange
-      when(() => mockFavoriteDataSource.removeFavorite(any())).thenThrow(CacheException('Inner exception'));
+      when(() => mockFavoriteDataSource.removeFavorite(id: any(named: 'id'))).thenThrow(CacheException('Inner exception'));
       // act
-      final result = await favoriteRepository.removeFavorite(tId);
+      final result = await favoriteRepository.removeFavorite(id: tId);
       // assert
-      verify(() => favoriteRepository.removeFavorite(tId));
+      verify(() => favoriteRepository.removeFavorite(id: tId));
       expect(result, Left(CacheFailure()));
     });
   });
@@ -105,21 +105,21 @@ void main() {
   group('isFavorite', () {
     test('should return if the character is in the repository', () async {
       // arrange
-      when(() => mockFavoriteDataSource.isFavorite(any())).thenAnswer((_) async => tResult);
+      when(() => mockFavoriteDataSource.isFavorite(id: any(named: 'id'))).thenAnswer((_) async => tResult);
       // act
-      final result = await favoriteRepository.isFavorite(tId);
+      final result = await favoriteRepository.isFavorite(id: tId);
       // assert
-      verify(() => favoriteRepository.isFavorite(tId));
+      verify(() => favoriteRepository.isFavorite(id: tId));
       expect(result, const Right(tResult));
     });
 
     test('should return a CacheFailure when call to repository is unsuccessful', () async {
       // arrange
-      when(() => mockFavoriteDataSource.isFavorite(any())).thenThrow(CacheException('Inner exception'));
+      when(() => mockFavoriteDataSource.isFavorite(id: any(named: 'id'))).thenThrow(CacheException('Inner exception'));
       // act
-      final result = await favoriteRepository.isFavorite(tId);
+      final result = await favoriteRepository.isFavorite(id: tId);
       // assert
-      verify(() => favoriteRepository.isFavorite(tId));
+      verify(() => favoriteRepository.isFavorite(id: tId));
       expect(result, Left(CacheFailure()));
     });
   });

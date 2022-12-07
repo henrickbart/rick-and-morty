@@ -16,7 +16,7 @@ void main() {
 
   setUp(() {
     mockCharacterDataSource = MockCharacterDataSource();
-    characterRepository = CharacterRepository(mockCharacterDataSource);
+    characterRepository = CharacterRepository(characterDataSource: mockCharacterDataSource);
   });
 
   const tQuery = 'Rick';
@@ -70,31 +70,31 @@ void main() {
 
   test('should get character data when call to get character in data source is successful', () async {
     // arrange
-    when(() => mockCharacterDataSource.getCharacter(any())).thenAnswer((_) async => tCharacterModel);
+    when(() => mockCharacterDataSource.getCharacter(id: any(named: 'id'))).thenAnswer((_) async => tCharacterModel);
     // act
-    final result = await characterRepository.getCharacter(tId);
+    final result = await characterRepository.getCharacter(id: tId);
     // assert
-    verify(() => mockCharacterDataSource.getCharacter(tId));
+    verify(() => mockCharacterDataSource.getCharacter(id: tId));
     expect(result, Right(tCharacterModel));
   });
 
   test('should get NotFoundFailure when call to get character in data source is unsuccessful', () async {
     // arrange
-    when(() => mockCharacterDataSource.getCharacter(tId)).thenThrow(NotFoundException());
+    when(() => mockCharacterDataSource.getCharacter(id: tId)).thenThrow(NotFoundException());
     // act
-    final result = await characterRepository.getCharacter(tId);
+    final result = await characterRepository.getCharacter(id: tId);
     // assert
-    verify(() => mockCharacterDataSource.getCharacter(tId));
+    verify(() => mockCharacterDataSource.getCharacter(id: tId));
     expect(result, Left(NotFoundFailure()));
   });
 
   test('should get ServerFailure when call to get character in data source is unsuccessful', () async {
     // arrange
-    when(() => mockCharacterDataSource.getCharacter(tId)).thenThrow(ServerException());
+    when(() => mockCharacterDataSource.getCharacter(id: tId)).thenThrow(ServerException());
     // act
-    final result = await characterRepository.getCharacter(tId);
+    final result = await characterRepository.getCharacter(id: tId);
     // assert
-    verify(() => mockCharacterDataSource.getCharacter(tId));
+    verify(() => mockCharacterDataSource.getCharacter(id: tId));
     expect(result, Left(ServerFailure()));
   });
 }

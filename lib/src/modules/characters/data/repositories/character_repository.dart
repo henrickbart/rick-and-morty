@@ -9,16 +9,14 @@ import '../../shared/e_search_type.dart';
 import '../../domain/repositories/i_character_repository.dart';
 
 class CharacterRepository implements ICharacterRepository {
-  final ICharacterDataSource _characterDataSource;
+  final ICharacterDataSource characterDataSource;
 
-  CharacterRepository(this._characterDataSource);
+  CharacterRepository({required this.characterDataSource});
 
   @override
-  Future<Either<Failure, CharacterSearch>> getCharacters(
-      {ESearchType? searchType, String? query, int? page}) async {
+  Future<Either<Failure, CharacterSearch>> getCharacters({ESearchType? searchType, String? query, int? page}) async {
     try {
-      final characters = await _characterDataSource.getCharacters(
-          searchType: searchType, query: query, page: page);
+      final characters = await characterDataSource.getCharacters(searchType: searchType, query: query, page: page);
       return Right(characters);
     } on NotFoundException {
       return Left(NotFoundFailure());
@@ -28,9 +26,9 @@ class CharacterRepository implements ICharacterRepository {
   }
 
   @override
-  Future<Either<Failure, Character>> getCharacter(int id) async {
+  Future<Either<Failure, Character>> getCharacter({required int id}) async {
     try {
-      final character = await _characterDataSource.getCharacter(id);
+      final character = await characterDataSource.getCharacter(id: id);
       return Right(character);
     } on NotFoundException {
       return Left(NotFoundFailure());

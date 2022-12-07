@@ -20,12 +20,12 @@ void main() {
 
   test('should return true if character id is in the repository', () async {
     // arrange
-    when(() => mockFavoriteRepository.isFavorite(any())).thenAnswer((_) async => const Right(tResult));
+    when(() => mockFavoriteRepository.isFavorite(id: any(named: 'id'))).thenAnswer((_) async => const Right(tResult));
     // act
     final result = await usecase(const IsFavoriteParams(tId));
     // assert
     expect(result, const Right(tResult));
-    verify(() => mockFavoriteRepository.isFavorite(tId));
+    verify(() => mockFavoriteRepository.isFavorite(id: tId));
     verifyNoMoreInteractions(mockFavoriteRepository);
   });
 }

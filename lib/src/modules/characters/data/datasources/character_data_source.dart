@@ -8,25 +8,22 @@ import '../../shared/e_search_type.dart';
 import '../../../../core/errors/exceptions.dart';
 
 abstract class ICharacterDataSource {
-  Future<CharacterSearchModel> getCharacters(
-      {ESearchType? searchType, String? query, int? page});
-  Future<CharacterModel> getCharacter(int id);
+  Future<CharacterSearchModel> getCharacters({ESearchType? searchType, String? query, int? page});
+  Future<CharacterModel> getCharacter({required int id});
 }
 
 class CharacterDataSource implements ICharacterDataSource {
   final Dio httpClient;
 
-  CharacterDataSource(this.httpClient);
+  CharacterDataSource({required this.httpClient});
   @override
-  Future<CharacterSearchModel> getCharacters(
-      {ESearchType? searchType, String? query, int? page}) async {
+  Future<CharacterSearchModel> getCharacters({ESearchType? searchType, String? query, int? page}) async {
     var queryParams = {
       if (page != null) 'page': page.toString(),
       if (query != null && searchType != null) searchType.name: query,
     };
 
-    final response = await httpClient.get('$baseURL$characterURL',
-        queryParameters: queryParams);
+    final response = await httpClient.get('$baseURL$characterURL', queryParameters: queryParams);
 
     if (response.statusCode == 200) {
       return CharacterSearchModel.fromJson(response.data);
@@ -38,7 +35,7 @@ class CharacterDataSource implements ICharacterDataSource {
   }
 
   @override
-  Future<CharacterModel> getCharacter(int id) async {
+  Future<CharacterModel> getCharacter({required int id}) async {
     final response = await httpClient.get('$baseURL$characterURL/$id');
 
     if (response.statusCode == 200) {

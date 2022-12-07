@@ -5,18 +5,18 @@ import '../../../../core/usecases/i_usecase.dart';
 import '../repositories/i_favorite_repository.dart';
 
 class RemoveFavoriteUseCase implements IUseCase<bool, RemoveFavoriteParams> {
-  final IFavoriteRepository _repository;
+  final IFavoriteRepository favoriteRepository;
 
-  RemoveFavoriteUseCase(this._repository);
+  RemoveFavoriteUseCase({required this.favoriteRepository});
 
   @override
   Future<Either<Failure, bool>> call(RemoveFavoriteParams params) async {
-    return await _repository.removeFavorite(params.id);
+    return await favoriteRepository.removeFavorite(id: params.id);
   }
 }
 
 class RemoveFavoriteParams {
-  const RemoveFavoriteParams(this.id);
+  const RemoveFavoriteParams({required this.id});
 
   final int id;
 }

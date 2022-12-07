@@ -18,7 +18,7 @@ void main() {
 
   setUp(() {
     mockHttpClient = MockHttpClient();
-    characterDataSource = CharacterDataSource(mockHttpClient);
+    characterDataSource = CharacterDataSource(httpClient: mockHttpClient);
   });
 
   void setUpHttpClientSuccess200(String url, String fixture) {
@@ -93,7 +93,7 @@ void main() {
       // arrange
       setUpHttpClientSuccess200(tUrl, tCharacterFixture);
       // act
-      characterDataSource.getCharacter(tId);
+      characterDataSource.getCharacter(id: tId);
       // assert
       verify(
         () => mockHttpClient.get(tUrl),
@@ -104,7 +104,7 @@ void main() {
       // arrange
       setUpHttpClientSuccess200(tUrl, tCharacterFixture);
       // act
-      final result = await characterDataSource.getCharacter(tId);
+      final result = await characterDataSource.getCharacter(id: tId);
       // assert
       expect(result, tCharacterModel);
     });
@@ -115,7 +115,7 @@ void main() {
       // act
       final call = characterDataSource.getCharacter;
       // assert
-      expect(() => call(tId), throwsA(isInstanceOf<NotFoundException>()));
+      expect(() => call(id: tId), throwsA(isInstanceOf<NotFoundException>()));
     });
 
     test('should return a ServerException when the response code is 500 or other', () async {
@@ -124,7 +124,7 @@ void main() {
       // act
       final call = characterDataSource.getCharacter;
       // assert
-      expect(() => call(tId), throwsA(isInstanceOf<ServerException>()));
+      expect(() => call(id: tId), throwsA(isInstanceOf<ServerException>()));
     });
   });
 }

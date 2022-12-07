@@ -28,18 +28,18 @@ void main() {
 
   setUp(() {
     mockFavoriteRepository = MockFavoriteRepository();
-    usecase = AddFavoriteUseCase(mockFavoriteRepository);
+    usecase = AddFavoriteUseCase(favoriteRepository: mockFavoriteRepository);
     registerFallbackValue(tCharacter);
   });
 
   test('should add character id in the repository', () async {
     // arrange
-    when(() => mockFavoriteRepository.addFavorite(any())).thenAnswer((_) async => const Right(tResult));
+    when(() => mockFavoriteRepository.addFavorite(character: any(named: 'character'))).thenAnswer((_) async => const Right(tResult));
     // act
-    final result = await usecase(AddFavoriteParams(tCharacter));
+    final result = await usecase(AddFavoriteParams(character: tCharacter));
     // assert
     expect(result, const Right(tResult));
-    verify(() => mockFavoriteRepository.addFavorite(tCharacter));
+    verify(() => mockFavoriteRepository.addFavorite(character: tCharacter));
     verifyNoMoreInteractions(mockFavoriteRepository);
   });
 }

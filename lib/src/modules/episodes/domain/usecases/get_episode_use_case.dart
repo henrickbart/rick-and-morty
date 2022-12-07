@@ -6,18 +6,18 @@ import '../entities/episode.dart';
 import '../repositories/i_episode_repository.dart';
 
 class GetEpisodeUseCase implements IUseCase<Episode, GetEpisodeParams> {
-  final IEpisodeRepository _repository;
+  final IEpisodeRepository episodeRepository;
 
-  GetEpisodeUseCase(this._repository);
+  GetEpisodeUseCase({required this.episodeRepository});
 
   @override
   Future<Either<Failure, Episode>> call(GetEpisodeParams params) async {
-    return await _repository.getEpisode(params.url);
+    return await episodeRepository.getEpisode(url: params.url);
   }
 }
 
 class GetEpisodeParams {
-  const GetEpisodeParams(this.url);
+  const GetEpisodeParams({required this.url});
 
   final String url;
 }

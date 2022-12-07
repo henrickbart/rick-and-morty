@@ -5,16 +5,16 @@ import '../../../../core/errors/exceptions.dart';
 import '../../domain/entities/episode.dart';
 
 abstract class IEpisodeDataSource {
-  Future<Episode> getEpisode(String url);
+  Future<Episode> getEpisode({required String url});
 }
 
 class EpisodeDataSource implements IEpisodeDataSource {
   final Dio httpClient;
 
-  EpisodeDataSource(this.httpClient);
+  EpisodeDataSource({required this.httpClient});
 
   @override
-  Future<Episode> getEpisode(String url) async {
+  Future<Episode> getEpisode({required String url}) async {
     final response = await httpClient.get(url);
 
     if (response.statusCode == 200) {

@@ -13,7 +13,7 @@ void main() {
 
   setUp(() {
     mockSharedPreferences = MockSharedPreferences();
-    favoriteDataSource = FavoriteDataSource(mockSharedPreferences);
+    favoriteDataSource = FavoriteDataSource(sharedPreferences: mockSharedPreferences);
   });
 
   final tCharacterModel = CharacterModel(
@@ -40,7 +40,7 @@ void main() {
       // arrange
       when(() => mockSharedPreferences.setString(any(), any())).thenAnswer((_) async => tResult);
       // act
-      final result = await favoriteDataSource.addFavorite(tCharacterModel);
+      final result = await favoriteDataSource.addFavorite(character: tCharacterModel);
       // assert
       expect(result, tResult);
       verify(() => mockSharedPreferences.setString(tKey, tValue));
@@ -53,7 +53,7 @@ void main() {
       // act
       final call = favoriteDataSource.addFavorite;
       // assert
-      expect(() => call(tCharacterModel), throwsA(isA<CacheException>()));
+      expect(() => call(character: tCharacterModel), throwsA(isA<CacheException>()));
     });
   });
 
@@ -62,7 +62,7 @@ void main() {
       // arrange
       when(() => mockSharedPreferences.remove(any())).thenAnswer((_) async => tResult);
       // act
-      final result = await favoriteDataSource.removeFavorite(tId);
+      final result = await favoriteDataSource.removeFavorite(id: tId);
       // assert
       expect(result, tResult);
       verify(() => mockSharedPreferences.remove(tKey));
@@ -75,7 +75,7 @@ void main() {
       // act
       final call = favoriteDataSource.removeFavorite;
       // assert
-      expect(() => call(tId), throwsA(isA<CacheException>()));
+      expect(() => call(id: tId), throwsA(isA<CacheException>()));
     });
   });
 
@@ -84,7 +84,7 @@ void main() {
       // arrange
       when(() => mockSharedPreferences.containsKey(any())).thenReturn(tResult);
       //act
-      final result = await favoriteDataSource.isFavorite(tId);
+      final result = await favoriteDataSource.isFavorite(id: tId);
       // assert
       expect(result, tResult);
       verify(() => mockSharedPreferences.containsKey(tKey));
@@ -97,7 +97,7 @@ void main() {
       // act
       final call = favoriteDataSource.isFavorite;
       // assert
-      expect(() => call(tId), throwsA(isA<CacheException>()));
+      expect(() => call(id: tId), throwsA(isA<CacheException>()));
     });
   });
 

@@ -7,13 +7,13 @@ import '../../domain/repositories/i_episode_repository.dart';
 import '../../domain/entities/episode.dart';
 
 class EpisodeRepository implements IEpisodeRepository {
-  final IEpisodeDataSource _episodeDataSource;
+  final IEpisodeDataSource episodeDataSource;
 
-  EpisodeRepository(this._episodeDataSource);
+  EpisodeRepository({required this.episodeDataSource});
   @override
-  Future<Either<Failure, Episode>> getEpisode(String url) async {
+  Future<Either<Failure, Episode>> getEpisode({required String url}) async {
     try {
-      final episode = await _episodeDataSource.getEpisode(url);
+      final episode = await episodeDataSource.getEpisode(url: url);
       return Right(episode);
     } on NotFoundException {
       return Left(NotFoundFailure());

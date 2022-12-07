@@ -13,7 +13,7 @@ void main() {
 
   setUp(() {
     mockEpisodeRepository = MockEpisodeRepository();
-    usecase = GetEpisodeUseCase(mockEpisodeRepository);
+    usecase = GetEpisodeUseCase(episodeRepository: mockEpisodeRepository);
   });
 
   const tUrl = 'https://rickandmortyapi.com/api/episode/1';
@@ -21,12 +21,12 @@ void main() {
 
   test('should get episode from the repository', () async {
     // arrange
-    when(() => mockEpisodeRepository.getEpisode(any())).thenAnswer((_) async => const Right(tEpisode));
+    when(() => mockEpisodeRepository.getEpisode(url: any(named: 'url'))).thenAnswer((_) async => const Right(tEpisode));
     // act
-    final result = await usecase(const GetEpisodeParams(tUrl));
+    final result = await usecase(const GetEpisodeParams(url: tUrl));
     // assert
     expect(result, const Right(tEpisode));
-    verify(() => mockEpisodeRepository.getEpisode(tUrl));
+    verify(() => mockEpisodeRepository.getEpisode(url: tUrl));
     verifyNoMoreInteractions(mockEpisodeRepository);
   });
 }

@@ -6,8 +6,7 @@ import '../../../../core/errors/failures.dart';
 import '../entities/character.dart';
 
 abstract class ICharacterRepository {
-  Future<Either<Failure, CharacterSearch>> getCharacters(
-      {ESearchType? searchType, String? query, int? page});
+  Future<Either<Failure, CharacterSearch>> getCharacters({ESearchType? searchType, String? query, int? page});
 
-  Future<Either<Failure, Character>> getCharacter(int id);
+  Future<Either<Failure, Character>> getCharacter({required int id});
 }
