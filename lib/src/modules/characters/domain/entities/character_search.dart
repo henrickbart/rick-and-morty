@@ -9,6 +9,18 @@ class CharacterSearch extends Equatable {
 
   const CharacterSearch(this.characters, this.previousPage, this.nextPage);
 
+  copyWith({
+    List<Character>? characters,
+    int? previousPage,
+    int? nextPage,
+  }) {
+    return CharacterSearch(
+      characters ?? this.characters,
+      previousPage ?? this.previousPage,
+      nextPage ?? this.nextPage,
+    );
+  }
+
   @override
   List<Object?> get props => [characters, previousPage, nextPage];
 }

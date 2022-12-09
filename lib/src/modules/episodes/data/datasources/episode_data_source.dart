@@ -18,7 +18,7 @@ class EpisodeDataSource implements IEpisodeDataSource {
     final response = await httpClient.get(url);
 
     if (response.statusCode == 200) {
-      return EpisodeModel.fromJson(response.data);
+      return EpisodeModel.fromMap(response.data);
     } else if (response.statusCode == 404) {
       throw NotFoundException();
     } else {

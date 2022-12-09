@@ -49,6 +49,37 @@ class CharacterModel extends Character {
         'created': created.toIso8601String(),
       };
 
+  @override
+  Character copyWith({
+    int? id,
+    String? name,
+    String? status,
+    String? species,
+    String? type,
+    String? gender,
+    String? origin,
+    String? location,
+    String? image,
+    List<String>? episodes,
+    DateTime? created,
+    bool? isFavorite,
+  }) {
+    return Character(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      status: status ?? this.status,
+      species: species ?? this.species,
+      type: type ?? this.type,
+      gender: gender ?? this.gender,
+      origin: origin ?? this.origin,
+      location: location ?? this.location,
+      image: image ?? this.image,
+      episodes: episodes ?? this.episodes,
+      created: created ?? this.created,
+      isFavorite: isFavorite ?? this.isFavorite,
+    );
+  }
+
   factory CharacterModel.fromJson(String data, {rootOrigin = false, rootLocation = false}) {
     return CharacterModel.fromMap(json.decode(data) as Map<String, dynamic>, rootOrigin: rootOrigin, rootLocation: rootLocation);
   }

@@ -16,8 +16,12 @@ class CharacterRepository implements ICharacterRepository {
   @override
   Future<Either<Failure, CharacterSearch>> getCharacters({ESearchType? searchType, String? query, int? page}) async {
     try {
-      final characters = await characterDataSource.getCharacters(searchType: searchType, query: query, page: page);
-      return Right(characters);
+      final characterSearchModel = await characterDataSource.getCharacters(searchType: searchType, query: query, page: page);
+
+      //Transforming a CharacterSearchModel in a CharacterSearch
+      final characterSearch = characterSearchModel.copyWith(characters: characterSearchModel.characters.map((character) => character.copyWith()).toList());
+
+      return Right(characterSearch);
     } on NotFoundException {
       return Left(NotFoundFailure());
     } on ServerException {

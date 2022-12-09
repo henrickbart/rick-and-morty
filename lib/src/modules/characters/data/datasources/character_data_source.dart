@@ -26,7 +26,7 @@ class CharacterDataSource implements ICharacterDataSource {
     final response = await httpClient.get('$baseURL$characterURL', queryParameters: queryParams);
 
     if (response.statusCode == 200) {
-      return CharacterSearchModel.fromJson(response.data);
+      return CharacterSearchModel.fromMap(response.data);
     } else if (response.statusCode == 404) {
       throw NotFoundException();
     } else {
@@ -39,7 +39,7 @@ class CharacterDataSource implements ICharacterDataSource {
     final response = await httpClient.get('$baseURL$characterURL/$id');
 
     if (response.statusCode == 200) {
-      return CharacterModel.fromJson(response.data);
+      return CharacterModel.fromMap(response.data);
     } else if (response.statusCode == 404) {
       throw NotFoundException();
     } else {

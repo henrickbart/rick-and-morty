@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:rick_and_morty/dependency_injection.dart';
+import 'package:rick_and_morty/src/modules/characters/presentation/character_list/character_list_view.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await injectDependencies();
   runApp(const RickAndMortyApp());
 }
 
@@ -14,7 +18,7 @@ class RickAndMortyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(),
+      home: const CharacterListView(),
     );
   }
 }
